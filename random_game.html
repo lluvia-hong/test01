@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .outBox {
+      width: 600px;
+      height: 500px;
+      background-color: #7C86FF;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    .title {
+      font-size: 30px;
+      color: aliceblue;
+    }
+    .board {
+      width: 300px;
+      height: 200px;
+      background-color: #E6E8FF;
+      border: 1px solid #949ffe;
+      border-radius: 20px;
+      font-size: 100px;
+      text-align: center;
+      line-height: 180px;
+    }
+    .rest {
+      width: 300px;
+      height: 80px;
+      background-color: #949ffe;
+      border-radius: 20px;
+      text-align: center;
+      line-height: 80px;
+    }
+    .inputBox {
+      width: 300px;
+      height: 50px;
+      /* background-color: aquamarine; */
+    }
+    #inputNum {
+      width: 140px;
+      padding: 8px 10px;
+    }
+    #inputNum::placeholder {
+      display: none;
+    }
+    button {
+      width: 60px;
+      height: 35px;
+      border: none;
+      border-radius: 5px;
+    }
+    button#find { 
+      background-color: #9CCC65;
+    }
+    button#reset {
+      background-color: #FFCB2E;
+    }
+  </style>
+</head>
+<body>
+  <div class="outBox">
+    <h1 class="title">숫자 맞추기 게임</h1>
+    <div class="board"></div>
+    <div class="rest"></div>
+    <div class="inputBox">
+      <input type="number" id="inputNum" placeholder="1부터 100까지의 수"/>
+      <button id="find" onclick="findNum()">시작</button>
+      <button id="reset">재도전</button>
+    </div>
+  </div>
+
+  <script>
+    let count = 5;
+    let ranNum = () => Math.floor(Math.random() * 100) + 1;
+    let myNumber = Number(ranNum());
+    
+    function findNum() {
+      let board = document.querySelector(".board");
+      let rest = document.querySelector(".rest");
+      let inputNum = Number(document.getElementById("inputNum").value);
+      let find = document.getElementById("find");
+      let reset = document.getElementById("reset");
+
+      // console.log('inputNum:' + inputNum)
+      // console.log('myNumber:' + myNumber)
+
+      if (inputNum === myNumber) {
+        board.innerHTML = 'bingo';
+      }else if(inputNum > myNumber) {
+        board.innerHTML = 'down';
+      }else {
+        board.innerHTML = 'up';
+      }
+      count--;
+      rest.innerHTML = `남은 횟수는 ${count} 입니다.`;
+    }
+    
+  </script>
+</body>
+</html>
