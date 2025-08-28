@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {margin: 2px; padding: 0; }
+    .container {
+      width: 800px;
+      height: 800px;
+      border: 1px solid #eee;
+      /* border-radius: 30px; */
+      margin: 20px auto;
+    }
+    .logo_title {text-align: center; padding-top: 20px;}
+    .logo_title img {width: 100px; color: #0131b6;}
+    
+    .infoBox {
+      width: 300px;
+      height: 500px;
+      margin: 20px auto;
+      margin-bottom: 20px;
+    }
+    .infoBox .line {
+      background-color: #ccc;
+      width: 300px;
+      height: 1px;
+      margin-bottom: 20px;
+    }
+    .inputbox {
+      width: calc(100% - 10px);
+      height: 25px;
+      font-size: 10px;
+      border: 1px solid #ccc;
+      padding-left: 10px;
+    }
+    .infoBox > div > h6 {
+      color: #888;
+    }
+    .inputbox:focus {
+      box-shadow: 1px 1px 10px rgba(0,255,255,0.5);
+      /* outline: 1px solid red */
+    }
+    .infoBox > div {
+      margin-bottom: 5px;
+    }
+    .infoBox > div > .msg {
+      width: 100%;
+      height: 20px;
+      font-size: 10px;
+      color: #e47a3c;
+    }
+    .btns {
+      width: 300px;
+      height: 50px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    .btns button {
+      width: 140px;
+      height: 30px;
+      text-align: center;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      margin-top: 10px;
+    }
+    .btns #signUp {
+      background-color: #4f77e6;
+    }
+    .btns #reset {
+      background-color: #e47a3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo_title">
+      <img src="img/hj_logo2.png" alt="logo">
+      <h2>회원가입</h2>
+    </div>
+    
+    <form class="infoBox">
+      <div class="line"></div>
+      <h4>계정 정보</h4><br>
+      <div class="idBox inputReset">
+        <h6>아이디</h6>
+        <input type="text" class="user_id inputbox" placeholder="영문 시작, 5~12자(영문,숫자, _, .)">
+        <div class="id_msg msg"></div>
+      </div>
+      <div class="pwBox inputReset">
+        <h6>비밀번호</h6>
+        <input type="text" class="user_pw inputbox" placeholder="영문 대소문자, 숫자, 특수문자 중 2종류 조합의 8~15자">
+        <div class="pw_msg msg"></div>
+      </div>
+      <div class="pwBox2 inputReset">
+        <h6>비밀번호</h6>
+        <input type="text" class="user_pw2 inputbox" placeholder="비밀번호를 다시 입력해 주세요">
+        <div class="pw_msg2  msg"></div>
+      </div>
+      <div class="nameBox inputReset">
+        <h6>이름</h6>
+        <input type="text" class="user_name inputbox" placeholder="이름을 입력해 주세요.">
+        <div class="name_msg  msg"></div>
+      </div>
+      <div class="phoneBox inputReset">
+        <h6>휴대폰 번호</h6>
+        <input type="text" class="user_phone inputbox" placeholder="하이폰(-)을 제외한 숫자만 입력해 주세요">
+        <div class="phone_msg msg"></div>
+      </div>
+      <div class="emailBox inputReset">
+        <h6>이메일</h6>
+        <input type="text" class="user_email inputbox" placeholder="이메일을 입력해 주세요.">
+        <div class="email_msg msg"></div>
+      </div>
+    </form>
+    <div class="btns">
+      <button id="signUp" onclick="signUp()">가입하기</button>
+      <button id="reset" onclick="resetAll()">초기화</button>
+    </div>
+  </div>
+
+  <script>
+    const idRegex = /^[a-zA-Z][a-zA-Z0-9._]{4,11}$/; //영문대소문자, 숫자, 점(.), 밑줄(_), 8~12자
+    // const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~`\-={}[\]:;"'<>,.?/\\]){8,15}$/;
+    // const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,15}$/;
+    const pwRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const nameRegex = /^[가-힣a-zA-Z]{2,10}$/;
+    const phoneRegex =  /^(010)\d{8,10}$/;
+    // const phoneRegex =  /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
+    function signUp() {
+      let id = document.querySelector(".user_id").value;
+      let pw = document.querySelector(".user_pw").value;
+      let pw2 = document.querySelector(".user_pw2").value;
+      let name = document.querySelector(".user_name").value;
+      let phone = document.querySelector(".user_phone").value;
+      let email = document.querySelector(".user_email").value;
+
+      let id_msg = document.querySelector(".id_msg");
+      let pw_msg = document.querySelector(".pw_msg");
+      let pw2_msg = document.querySelector(".pw_msg2");
+      let name_msg = document.querySelector(".name_msg");
+      let phone_msg = document.querySelector(".phone_msg");
+      let email_msg = document.querySelector(".email_msg");
+
+      if( !idRegex.test(id)) {
+        id_msg.textContent = "영문대소문자로 시작, 5~12자(영문,숫자, _, .) 입력해 주세요";
+        return;
+      }
+      if( !pwRegex.test(pw)) {
+        console.log(pw)
+        pw_msg.textContent = "영문 대소문자, 숫자, 특수문자 중 2종류 조합의 8~15자로 입력해 주세요";
+        return;
+      }
+      if(!(pw === pw2)) {
+        pw2_msg.textContent = "동일한 비밀번호를 입력해 주세요";
+        return;
+      }
+      if( !nameRegex.test(name)) {
+        name_msg.textContent = "한글과 영문으로만 입력해 주세요";
+        return;
+      }
+      if( !phoneRegex.test(phone)) {
+        phone_msg.textContent = "하이폰(-)을 제외한 숫자만 입력해 주세요";
+        return;
+      }
+      if( !emailRegex.test(email)) {
+        email_msg.textContent = "이메일을 바르게 입력해 주세요.";
+        return;
+      }
+
+      alert("가입을 축하합니다.");
+    }
+
+
+  function resetAll() {
+    document.querySelector(".infoBox").reset();
+      document.querySelectorAll(".msg").forEach((item) => {
+        item.textContent = '';
+      })
+  }
+
+  </script>
+</body>
+</html>
